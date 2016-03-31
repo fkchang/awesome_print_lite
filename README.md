@@ -4,7 +4,15 @@ This gem exists to provide basic
 https://github.com/michaeldv/awesome_print (from which large portions
 of code were taken) type functionality for opalrb.org apps,
 particularly opal-irb, as such I've named it awesome_print_lite.  It
-is not limited to opal apps only
+need not limited to opal apps only, though I'm not sure why one would
+use it over awesome_print if not using it in opal.
+
+As such, this is basically a port of awesome_print to run on oapl
+
+## Porting Consideratinos
+- Mutable strings not supported in Opal
+- Now Thread in Opal
+- No access to filesystem, and similar
 
 ## Installation
 
