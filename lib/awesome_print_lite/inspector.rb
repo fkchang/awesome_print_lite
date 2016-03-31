@@ -87,7 +87,9 @@ module AwesomePrintLite
       }
 
       # Merge custom defaults and let explicit options parameter override them.
-      merge_custom_defaults!
+      if RUBY_ENGINE != 'opal'
+        merge_custom_defaults!
+      end
       merge_options!(options)
 
       @formatter = AwesomePrintLite::Formatter.new(self)

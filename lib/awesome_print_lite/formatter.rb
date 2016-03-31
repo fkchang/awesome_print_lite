@@ -61,7 +61,9 @@ module AwesomePrintLite
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
     def awesome_self(object, type)
-      if @options[:raw] && object.instance_variables.any?
+      # alert "#{object.inspect} #{object.instance_variables}"
+      # `console.log(#{object.instance_variables})`
+      if @options[:raw] && instance_variables_opal(object).any?
         return awesome_object(object)
       elsif hash = convert_to_hash(object)
         awesome_hash(hash)
@@ -70,6 +72,11 @@ module AwesomePrintLite
       end
     end
 
+    # because we put instance variables on everything in opal
+    def instance_variables_opal(object)
+      object.instance_variables - %w(@0 @1 @2 @3 @4 @5 @6 @7 @8 @9 @encoding)
+    end
+    
     # Format an array.
     #------------------------------------------------------------------------------
     def awesome_array(a)
@@ -148,9 +155,9 @@ module AwesomePrintLite
 
         unless @options[:plain]
           if key =~ /(@\w+)/
-            key.sub!($1, colorize($1, :variable))
+            key = key.sub($1, colorize($1, :variable))
           else
-            key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
+            key = key.sub(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
           end
         end
         indented do
