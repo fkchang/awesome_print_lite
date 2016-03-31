@@ -81,14 +81,13 @@ module AwesomePrintLite
         width = (a.size - 1).to_s.size 
 
         data = a.inject([]) do |arr, item|
-          index = StringIO.new(indent)
-          index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if @options[:index]
-          puts "array index: |#{index.string}|"
+          index = indent
+          index += colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if @options[:index]
           indented do
-            arr << (index << @inspector.awesome(item)).string
+            index += @inspector.awesome(item)
+            arr << index
           end
         end
-        puts data.join(",\n")
         data = limited(data, width) if should_be_limited?
         "[\n" + data.join(",\n") + "\n#{outdent}]"
       else
@@ -238,10 +237,10 @@ module AwesomePrintLite
       args_width = tuples.map { |item| item[1].size }.max || 0
 
       data = tuples.inject([]) do |arr, item|
-        index = StringIO.new(indent)
-        index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
+        index = indent
+        index += "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
         indented do
-          arr << "#{index.string} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
+          arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
         end
       end
 

@@ -480,7 +480,7 @@ EOS
          #------------------------------------------------------------------------------
          describe "Utility methods" do
            it "should merge options" do
-             ap = AwesomePrint::Inspector.new
+             ap = AwesomePrintLite::Inspector.new
              ap.send(:merge_options!, { :color => { :array => :black }, :indent => 0 })
              options = ap.instance_variable_get("@options")
              expect(options[:color][:array]).to eq(:black)
