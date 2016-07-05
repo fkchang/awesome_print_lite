@@ -74,7 +74,7 @@ module AwesomePrintLite
 
     # because we put instance variables on everything in opal
     def instance_variables_opal(object)
-      object.instance_variables - %w(@0 @1 @2 @3 @4 @5 @6 @7 @8 @9 @encoding)
+      object.instance_variables.reject { |instance_var| instance_var =~ /^@\d+$/ } - %w( @encoding)
     end
     
     # Format an array.
